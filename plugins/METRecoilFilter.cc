@@ -60,14 +60,12 @@ METRecoilFilterT<T>::~METRecoilFilterT() {
 
 template<class T>
 bool METRecoilFilterT<T>::filter(edm::Event& iEvent, const edm::EventSetup& iSetup) {
-
   bool eventAccepted = false;
   // get by token
   edm::Handle<T> metCollectionsH;
   for(auto token : metCollectionsToken){ // loop on the met collection
-    iEvent.getByToken(token,metCollectionsH); // take the met
-    
-    for(auto met : *metCollectionsH)
+    iEvent.getByToken(token,metCollectionsH); // take the met    
+    for(auto met : *metCollectionsH){
       if(graterThan){
 	if(not applyAndInsteadOfOr and met.pt() > metRecoilCut)
 	  eventAccepted += true;
@@ -80,8 +78,8 @@ bool METRecoilFilterT<T>::filter(edm::Event& iEvent, const edm::EventSetup& iSet
 	else if(applyAndInsteadOfOr and met.pt() < metRecoilCut)
 	  eventAccepted *= true;
       }
+    }
   }
-
   return eventAccepted;
 
 }

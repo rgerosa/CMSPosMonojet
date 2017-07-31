@@ -59,6 +59,10 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.MessageLogger.destinations = ['cout', 'cerr']
 process.MessageLogger.cerr.FwkReport.reportEvery = 200
 
+process.options = cms.untracked.PSet(
+    allowUnscheduled = cms.untracked.bool(True),
+    wantSummary = cms.untracked.bool(True))
+
 ### source file
 process.source = cms.Source("PoolSource", 
                             fileNames = cms.untracked.vstring(options.inputFiles))
@@ -98,44 +102,32 @@ process.goodVertices = cms.EDFilter("VertexSelector",
 
 
 ### apply a selection on a set of given trigger paths in MC
-process.filterHLTEvents = cms.EDFilter("HLTHighLevel",
-                                       TriggerResultsTag  = cms.InputTag("TriggerResults","","HLT"),
-                                       HLTPaths           = cms.vstring(
-        "HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight*",
-        "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight*",
-        "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight*",
-        "HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v*",
-        "HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v*",
-        "HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight*",
-        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight*",
-        "HLT_PFMET90_PFMHT90_IDTight",
-        "HLT_PFMET100_PFMHT100_IDTight_v*",
-        "HLT_PFMET110_PFMHT110_IDTight_v*",
-        "HLT_PFMET120_PFMHT120_IDTight*", 
-        "HLT_PFMET170_NoiseCleaned*",
-        "HLT_PFMET170_JetIdCleaned*", 
-        "HLT_PFMET170_HBHECleaned*",
-        "HLT_PFMET170_v*",
-        "HLT_PFMET300_NoiseCleaned*",
-        "HLT_PFMET300_JetIdCleaned*", 
-        "HLT_PFMET300_v*",
-        "HLT_MonoCentralPFJet80_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight*",
-        "HLT_MonoCentralPFJet80_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight*",
-        "HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight*",
-        "HLT_MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight_v*",
-        "HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v*",
-        "HLT_MonoCentralPFJet80_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight*",
-        "HLT_MonoCentralPFJet80_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight*", 
-        "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight*",
-        "HLT_Photon165_HE10*", 
-        "HLT_Photon175*",    
-        "HLT_Ele27_WPTight_Gsf_v*", 
-        "HLT_Ele27_eta2p1_WPLoose_Gsf_v*", 
-        "HLT_Ele105_CaloIdVT_GsfTrkIdT_v*", 
-        "HLT_Ele115_CaloIdVT_GsfTrkIdT_v*"
-        ),
-                                       andOr = cms.bool(True), #----- True = OR, False = AND between the HLTPaths
-                                       throw = cms.bool(False) # throw exception on unknown path names
+process.filterHLTEvents = cms.EDFilter("HLTCheckFilter",
+                                       triggerResults = cms.InputTag("TriggerResults","","HLT"),
+                                       triggerPaths = cms.vstring(
+        "HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",
+        "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",
+        "HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v",
+        "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
+        "HLT_PFMET90_PFMHT90_IDTight_v",
+        "HLT_PFMET100_PFMHT100_IDTight_v",
+        "HLT_PFMET110_PFMHT110_IDTight_v",
+        "HLT_PFMET120_PFMHT120_IDTight_v",
+        "HLT_PFMET170_v",
+        "HLT_PFMET170_NoiseCleaned_v",
+        "HLT_PFMET170_JetIdCleaned_v",
+        "HLT_PFMET170_HBHECleaned_v",
+        "HLT_PFMET300_v",
+        "HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v",
+        "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
+        "HLT_MonoCentralPFJet80_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v",
+        "HLT_MonoCentralPFJet80_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v",
+        "HLT_Photon165_HE10_v",
+        "HLT_Photon175_v",
+        "HLT_Ele27_WPLoose_Gsf_v",
+        "HLT_Ele27_eta2p1_WPLoose_Gsf_v",
+        "HLT_Ele27_eta2p1_WPTight_Gsf_v",
+        "HLT_Ele105_CaloIdVT_GsfTrkIdT_v")
                                        )
                                          
 
@@ -211,20 +203,22 @@ process.selectedObjects = cms.EDProducer("SelectMonojetAnalysisObjects",
                                          photons   = cms.InputTag("slimmedPhotons"),
                                          photonSelection = cms.VPSet(
         ### loose photons
-        cms.PSet(
+        cms.PSet( 
+            idType = cms.string("loose"),
             photonCollectionName = cms.string("loosePhotons"),
             ptMin  = cms.double(15),
             absEta = cms.double(2.5),
             photonValueMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring16-V2p2-loose")),
         ##### medium photons
         cms.PSet(
+            idType = cms.string("medium"),
             photonCollectionName = cms.string("mediumPhotons"),
             ptMin  = cms.double(15),
             absEta = cms.double(2.5),
             photonValueMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring16-V2p2-medium"))
         ),       
                                          ## V-jets
-                                         ak8Jets  = cms.InputTag(""),
+                                         ak8Jets  = cms.InputTag("slimmedJetsAK8"),
                                          vtaggingSelection = cms.VPSet(
         ### standard tagging
         cms.PSet(
@@ -234,7 +228,7 @@ process.selectedObjects = cms.EDProducer("SelectMonojetAnalysisObjects",
             absEta = cms.double(2.4),
             minMass = cms.double(65),
             maxMass = cms.double(105),
-            nsubjettiness = cms.double(0.5),
+            tau2tau1 = cms.double(0.5),
             usePuppi = cms.bool(True))          
         )
                                          )
@@ -242,17 +236,17 @@ process.selectedObjects = cms.EDProducer("SelectMonojetAnalysisObjects",
 ### Compute the hadronic recoil
 process.metNoMuon = cms.EDProducer("MuonCorrectedMETProducer",
                                    metCollection = cms.InputTag("slimmedMETs"),
-                                   canToSubtract = cms.VInputTag(cms.InputTag("selectedObjects", "looseMuons")),
+                                   candToSubtract = cms.VInputTag(cms.InputTag("selectedObjects", "looseMuons")),
                                    pfCandidates  = cms.InputTag("packedPFCandidates"))
 
 process.metNoElectron = cms.EDProducer("ElectronCorrectedMETProducer",
                                        metCollection = cms.InputTag("slimmedMETs"),
-                                       canToSubtract = cms.VInputTag(cms.InputTag("selectedObjects", "vetoElectrons")),
+                                       candToSubtract = cms.VInputTag(cms.InputTag("selectedObjects", "vetoElectrons")),
                                        pfCandidates  = cms.InputTag("packedPFCandidates"))
 
 process.metNoPhoton = cms.EDProducer("PhotonCorrectedMETProducer",
                                      metCollection = cms.InputTag("slimmedMETs"),
-                                     canToSubtract = cms.VInputTag(cms.InputTag("selectedObjects", "loosePhotons")),
+                                     candToSubtract = cms.VInputTag(cms.InputTag("selectedObjects", "loosePhotons")),
                                      pfCandidates  = cms.InputTag("packedPFCandidates"))
 
 
@@ -280,20 +274,20 @@ process.tree = cms.EDAnalyzer("MonoJetTreeMaker",
                               triggerResults = cms.InputTag("TriggerResults", "",options.triggerName),
                               vertices = cms.InputTag("goodVertices"),
                               ####
-                              looseMuons = cms.InputTag("SelectMonojetAnalysisObjects","","looseMuons"),
-                              tightMuons = cms.InputTag("SelectMonojetAnalysisObjects","","tightMuons"),
+                              looseMuons = cms.InputTag("selectedObjects","looseMuons"),
+                              tightMuons = cms.InputTag("selectedObjects","tightMuons"),
                               ####
-                              vetoElectrons = cms.InputTag("SelectMonojetAnalysisObjects","","vetoElectrons"),
-                              tightElectrons = cms.InputTag("SelectMonojetAnalysisObjects","","tightElectrons"),
+                              vetoElectrons = cms.InputTag("selectedObjects","vetoElectrons"),
+                              tightElectrons = cms.InputTag("selectedObjects","tightElectrons"),
                               ####                                 
-                              loosePhotons = cms.InputTag("SelectMonojetAnalysisObjects","","loosePhotons"),
-                              mediumPhotons = cms.InputTag("SelectMonojetAnalysisObjects","","mediumPhotons"),
+                              loosePhotons = cms.InputTag("selectedObjects","loosePhotons"),
+                              mediumPhotons = cms.InputTag("selectedObjects","mediumPhotons"),
                               ####
-                              looseTaus = cms.InputTag("SelectMonojetAnalysisObjects","","looseTaus"),
+                              looseTaus = cms.InputTag("selectedObjects","looseTaus"),
                               ####
                               jetsAK4 = cms.InputTag("slimmedJets"),
                               ####
-                              vJetsAK8 =  cms.InputTag("SelectMonojetAnalysisObjects","","puppiVjetCandidates"),
+                              vJetsAK8    = cms.InputTag("selectedObjects","puppiVjetCandidates"),
                               isPuppiVJet = cms.bool(True),
                               ####
                               t1PFMET = cms.InputTag("slimmedMETs"),
@@ -319,6 +313,8 @@ process.gentree = cms.EDAnalyzer("MonoJetGenTreeMaker",
                                  genEventInfo = cms.InputTag("generator"),
                                  )
 
+
+### task for unscheduled mode
 process.analysisPath = cms.Path(process.gentree+ ## to be run as a first step
                                 process.goodVertices+
                                 process.filterHLTEvents+

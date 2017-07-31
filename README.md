@@ -8,4 +8,4 @@ Recipe to install and compile the package targetting 80X release cycles:
        git-cms-init;
        git cms-merge-topic -u ikrav:egm_id_80X_v2;
        git cms-merge-topic -u ikrav:egm_id_80X_v3_photons;
-       git clone git@github.com:rgerosa/CMSPosMonojet.git MonojetFramework/CMSPosMonojet
+       git clone https://github.com/rgerosa/CMSPosMonojet.git MonojetFramework/CMSPosMonojet

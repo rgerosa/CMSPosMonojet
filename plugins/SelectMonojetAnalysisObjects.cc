@@ -12,7 +12,8 @@ SelectMonojetAnalysisObjects::SelectMonojetAnalysisObjects(const edm::ParameterS
   photonSelection          (iConfig.getParameter<std::vector<edm::ParameterSet> >("photonSelection")),
   tausToken                (consumes<std::vector<pat::Tau> >  (iConfig.getParameter<edm::InputTag>("taus"))),
   tauSelection             (iConfig.getParameter<std::vector<edm::ParameterSet> >("tauSelection")),
-  jetsAK8Token             (consumes<std::vector<pat::Jet> > (iConfig.getParameter<edm::InputTag>("ak8Jets")))
+  jetsAK8Token             (consumes<std::vector<pat::Jet> > (iConfig.getParameter<edm::InputTag>("ak8Jets"))),
+  jetAK8Selection          (iConfig.getParameter<std::vector<edm::ParameterSet> >("vtaggingSelection"))
 {
 
   // produces output muon collections
@@ -37,7 +38,7 @@ SelectMonojetAnalysisObjects::SelectMonojetAnalysisObjects(const edm::ParameterS
 
   // produces output ak8 collection
   for(auto ijet : jetAK8Selection)
-    produces<pat::JetRefVector>(ijet.getParameter<std::string>("jetCollectionName"));
+    produces<pat::JetRefVector>(ijet.getParameter<std::string>("vjetCollectionName"));
   
   // useful for taus cleaning
   looseMuonPosition     = -1;
@@ -161,7 +162,8 @@ void SelectMonojetAnalysisObjects::produce(edm::Event& iEvent, const edm::EventS
     size_t ipos = 0;
     for(auto iele : electronSelection){
       // bool for the electron id
-      bool passesid = (*electronMapH.at(ipos))[electronPtr];            
+      bool passesid = (*electronMapH.at(ipos))[electronPtr]; 
+
       // bool for dxy and dz cut that are taken out from standard electron VID
       bool pass_dxy = false;
       bool pass_dz  = false;
@@ -204,14 +206,14 @@ void SelectMonojetAnalysisObjects::produce(edm::Event& iEvent, const edm::EventS
 	  pass_dz = true;
       }
 
+      // apply basic kinematic cuts
+      bool passeskincuts  = (electrons_iter->pt() > iele.getParameter<double>("ptMin") &&
+			     fabs(electrons_iter->superCluster()->eta()) < iele.getParameter<double>("absEta"));
+
       // apply selections
       if(not passesid) continue;
       if(not pass_dxy) continue;
       if(not pass_dz) continue;
-
-      // apply basic kinematic cuts
-      bool passeskincuts  = (electrons_iter->pt() > iele.getParameter<double>("ptMin") &&
-			     fabs(electrons_iter->superCluster()->eta()) < iele.getParameter<double>("absEta"));
       if(not passeskincuts) continue;
       outputelectrons.at(ipos)->push_back(pat::ElectronRef(electronsH, electrons_iter - electronsH->begin()));
       ipos++;
@@ -250,12 +252,13 @@ void SelectMonojetAnalysisObjects::produce(edm::Event& iEvent, const edm::EventS
 	if (deltaR(outputelectrons.at(vetoElectronPosition)->at(j)->eta(), outputelectrons.at(vetoElectronPosition)->at(j)->phi(), 
 		   taus_iter->eta(), taus_iter->phi()) < itau.getParameter<double>("dRCleaning")) skiptau = true;
       }
-      if(skiptau) continue;
-      
+
       string decayMode = "decayModeFinding";
       if(not itau.getParameter<bool>("useOldDecayMode"))
 	decayMode = "decayModeFindingNewDMs";
-      
+
+      if(skiptau) continue;
+            
       if (taus_iter->pt() > itau.getParameter<double>("ptMin") &&
 	  fabs(taus_iter->eta()) < itau.getParameter<double>("absEta") &&
 	  taus_iter->tauID(decayMode) > 0.5 && // check if the boolean is true
@@ -291,22 +294,24 @@ void SelectMonojetAnalysisObjects::produce(edm::Event& iEvent, const edm::EventS
 	if(jets_iter->pt() < ijet.getParameter<double>("ptMin")) continue;
 	if(fabs(jets_iter->eta()) > ijet.getParameter<double>("absEta")) continue;
 	if(jets_iter->userFloat("NjettinessAK8:tau2")/jets_iter->userFloat("NjettinessAK8:tau1") > ijet.getParameter<double>("tau2tau1")) continue;
-	if(jets_iter->userFloat("ak8PFJetsCHSPrunedMass") < ijet.getParameter<double>("massMin")) continue;
-	if(jets_iter->userFloat("ak8PFJetsCHSPrunedMass") > ijet.getParameter<double>("massMax")) continue;
+	if(jets_iter->userFloat("ak8PFJetsCHSPrunedMass") < ijet.getParameter<double>("minMass")) continue;
+	if(jets_iter->userFloat("ak8PFJetsCHSPrunedMass") > ijet.getParameter<double>("maxMass")) continue;
       }
       else{ // use Soft-drop + N-subjettiness on top of Puppi AK8 jets
-	if(jets_iter->userFloat("ak8PFJetsPuppiValueMap:pt") < ijet.getParameter<double>("ptMin")) continue;
-	if(fabs(jets_iter->userFloat("ak8PFJetsPuppiValueMap:mass")) > ijet.getParameter<double>("absEta")) continue;      
-	if(jets_iter->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau2")/jets_iter->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau1") > ijet.getParameter<double>("tau2tau1")) continue;
 	TLorentzVector puppi_softdrop, puppi_softdrop_subjet;
 	auto sdSubjetsPuppi = jets_iter->subjets("SoftDropPuppi");
 	for(auto it : sdSubjetsPuppi) {
           puppi_softdrop_subjet.SetPtEtaPhiM(it->correctedP4(0).pt(),it->correctedP4(0).eta(),it->correctedP4(0).phi(),it->correctedP4(0).mass());
           puppi_softdrop+=puppi_softdrop_subjet;
 	}
-	if(puppi_softdrop.M() < ijet.getParameter<double>("massMin")) continue;
-	if(puppi_softdrop.M() > ijet.getParameter<double>("massMax")) continue;
-      }      
+
+	if(jets_iter->userFloat("ak8PFJetsPuppiValueMap:pt") < ijet.getParameter<double>("ptMin")) continue;
+	if(fabs(jets_iter->userFloat("ak8PFJetsPuppiValueMap:eta")) > ijet.getParameter<double>("absEta")) continue;      
+	if(jets_iter->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau2")/jets_iter->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau1") > ijet.getParameter<double>("tau2tau1")) continue;
+	if(puppi_softdrop.M() < ijet.getParameter<double>("minMass")) continue;
+	if(puppi_softdrop.M() > ijet.getParameter<double>("maxMass")) continue;
+      }
+      
       outputvjets.at(ipos)->push_back(pat::JetRef(jetsAK8H, jets_iter - jetsAK8H->begin()));
       ipos++;      
     }

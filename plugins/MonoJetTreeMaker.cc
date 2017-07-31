@@ -77,7 +77,6 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   using namespace std;
   using namespace pat;
   
-
   // Get handles to all the requisite collections
   Handle<TriggerResults> triggerResultsH;
   iEvent.getByToken(triggerResultsToken, triggerResultsH);
@@ -130,7 +129,6 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   // AK4 Jets
   Handle<vector<pat::Jet> > jetsAK4H;
   iEvent.getByToken(jetsAK4Token, jetsAK4H);
-  pat::JetCollection jetsAK4 = *jetsAK4H;
 
   // AK8 V-Jets
   Handle<pat::JetRefVector> vJetsAK8H;
@@ -146,7 +144,6 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   iEvent.getByToken(t1PFMETNoElectronToken, t1PFMETNoElectronH);
   Handle<View<pat::MET> > t1PFMETNoPhotonH;
   iEvent.getByToken(t1PFMETNoPhotonToken, t1PFMETNoPhotonH);
-
 
   // Event, lumi, run info
   event = iEvent.id().event();
@@ -222,11 +219,10 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     t1metnophophi = t1PFMETNoPhotonH->front().corPhi();
   }
   
-
   // AK4 Jet information
   vector<pat::JetRef> jets;
   if(jetsAK4H.isValid()){                                                                                                                                                                 
-    for (auto jets_iter = jetsAK4.begin(); jets_iter != jetsAK4.end(); ++jets_iter) {                                                                                                         
+    for (auto jets_iter = jetsAK4H->begin(); jets_iter != jetsAK4H->end(); ++jets_iter) {                                                                                                         
       //clean from leptons                                                                                                                                                                       
       bool skipjet = false;                                                                                                                                                                      
       for (std::size_t j = 0; j < looseMuons.size(); j++) {                                                                                                                                    
@@ -244,7 +240,7 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
       // jet in overlap with lepton                                                                                                                                                                 
       if (skipjet) continue;                                                                                                                                                                       
-      pat::JetRef jetref(jetsAK4H, jets_iter - jetsAK4H->begin());
+      pat::JetRef jetref(jetsAK4H,jets_iter - jetsAK4H->begin());
       if(not jetref.isAvailable()) continue;
       if(not jetref.isNonnull()) continue;
       if(fabs(jetref->eta()) > 4.7) continue;
@@ -256,7 +252,6 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   // fill jet informations
   njets = 0;  nbjets = 0;
   jetpt.clear(); jeteta.clear(); jetphi.clear(); jetm.clear(); jetbtag.clear(); jetchfrac.clear(); jetnhfrac.clear();
-  
   for(size_t i = 0; i < jets.size(); i++){
     if(fabs(jets[i]->eta()) < 2.5) njets++;
     if(jets[i]->pt() > minJetPtBveto and fabs(jets[i]->eta()) < 2.4 and jets[i]->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") > btaggingCSVWP) nbjets++;
@@ -289,7 +284,6 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   if(mindphijetmetnoele_vec.size() > 0) mindphijetmetnoele = *min_element(mindphijetmetnoele_vec.begin(),mindphijetmetnoele_vec.end());
   if(mindphijetmetnopho_vec.size() > 0) mindphijetmetnopho = *min_element(mindphijetmetnopho_vec.begin(),mindphijetmetnopho_vec.end());
   
-
   // taus
   ntaus = 0;  
   if(looseTausH.isValid()){
@@ -430,7 +424,6 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	phid = 1;
     }
   }
-  
   
   // Substructure CHS
   vjetpt.clear(); vjeteta.clear(); vjetphi.clear(); vjetm.clear(); vjetprunedm.clear(); vjetsoftdropm.clear(); vjettau1.clear(); vjettau2.clear();
@@ -598,7 +591,6 @@ void MonoJetTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
   }
   tree->Fill();    
-  
 }    
 
 void MonoJetTreeMaker::beginJob() {
@@ -726,39 +718,29 @@ void MonoJetTreeMaker::endJob() {}
 
 void MonoJetTreeMaker::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup) {
   // triggers for the Analysis
-  triggerPathsVector.push_back("HLT_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight"); 
-  triggerPathsVector.push_back("HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight"); 
-  triggerPathsVector.push_back("HLT_PFMETNoMu90_PFMHTNoMu90_IDTight"); 
-  triggerPathsVector.push_back("HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v");
-  triggerPathsVector.push_back("HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v");
-  triggerPathsVector.push_back("HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight"); 
-  triggerPathsVector.push_back("HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight"); 
-  triggerPathsVector.push_back("HLT_PFMETNoMu120_PFMHTNoMu120_IDTight"); 
-  triggerPathsVector.push_back("HLT_PFMET90_PFMHT90_IDTight"); 
+  triggerPathsVector.push_back("HLT_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v"); 
+  triggerPathsVector.push_back("HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v"); 
+  triggerPathsVector.push_back("HLT_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v"); 
+  triggerPathsVector.push_back("HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v"); 
+  triggerPathsVector.push_back("HLT_PFMET90_PFMHT90_IDTight_v"); 
   triggerPathsVector.push_back("HLT_PFMET100_PFMHT100_IDTight_v"); 
   triggerPathsVector.push_back("HLT_PFMET110_PFMHT110_IDTight_v"); 
-  triggerPathsVector.push_back("HLT_PFMET120_PFMHT120_IDTight"); 
-  triggerPathsVector.push_back("HLT_PFMET170_NoiseCleaned"); 
-  triggerPathsVector.push_back("HLT_PFMET170_JetIdCleaned"); 
-  triggerPathsVector.push_back("HLT_PFMET170_HBHECleaned"); 
+  triggerPathsVector.push_back("HLT_PFMET120_PFMHT120_IDTight_v"); 
   triggerPathsVector.push_back("HLT_PFMET170_v"); 
-  triggerPathsVector.push_back("HLT_PFMET300_NoiseCleaned"); 
-  triggerPathsVector.push_back("HLT_PFMET300_JetIdCleaned"); 
+  triggerPathsVector.push_back("HLT_PFMET170_NoiseCleaned_v"); 
+  triggerPathsVector.push_back("HLT_PFMET170_JetIdCleaned_v"); 
+  triggerPathsVector.push_back("HLT_PFMET170_HBHECleaned_v"); 
   triggerPathsVector.push_back("HLT_PFMET300_v"); 
-  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu90_NoiseCleaned_PFMHTNoMu90_IDTight"); 
-  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight"); 
-  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight");    
-  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight_v");
-  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v");
-  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight"); 
-  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight"); 
-  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight"); 
-  triggerPathsVector.push_back("HLT_Photon165_HE10"); 
-  triggerPathsVector.push_back("HLT_Photon175");      
-  triggerPathsVector.push_back("HLT_Ele27_WPTight_Gsf_v"); 
+  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v");
+  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v");
+  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu90_JetIdCleaned_PFMHTNoMu90_IDTight_v");
+  triggerPathsVector.push_back("HLT_MonoCentralPFJet80_PFMETNoMu120_JetIdCleaned_PFMHTNoMu120_IDTight_v");
+  triggerPathsVector.push_back("HLT_Photon165_HE10_v"); 
+  triggerPathsVector.push_back("HLT_Photon175_v");      
+  triggerPathsVector.push_back("HLT_Ele27_WPLoose_Gsf_v"); 
+  triggerPathsVector.push_back("HLT_Ele27_eta2p1_WPLoose_Gsf_v"); 
   triggerPathsVector.push_back("HLT_Ele27_eta2p1_WPTight_Gsf_v"); 
   triggerPathsVector.push_back("HLT_Ele105_CaloIdVT_GsfTrkIdT_v"); 
-  triggerPathsVector.push_back("HLT_Ele115_CaloIdVT_GsfTrkIdT_v"); 
   
   HLTConfigProvider hltConfig; // load triggers
   bool changedConfig = false;
