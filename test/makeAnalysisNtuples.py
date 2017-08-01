@@ -246,7 +246,7 @@ process.metNoPhoton = cms.EDProducer("PhotonCorrectedMETProducer",
 
 
 ### apply a selection on a logic OR between recoil and missing energy
-process.filterHigMETEvents = cms.EDFilter("METRecoilFilter",
+process.filterHighMETEvents = cms.EDFilter("METRecoilFilter",
                                           metCollections = cms.VInputTag(
             cms.InputTag("slimmedMETs"),
             cms.InputTag("metNoMuon"),
@@ -310,10 +310,17 @@ process.gentree = cms.EDAnalyzer("MonoJetGenTreeMaker",
 
 
 ### task for unscheduled mode
-process.analysisPath = cms.Path(process.gentree+ ## to be run as a first step
-                                process.goodVertices+
-                                process.filterHLTEvents+
-                                process.filterHigMETEvents+
-                                process.tree)
+if options.filterOnHLT:
+    process.analysisPath = cms.Path(process.gentree+ ## to be run as a first step
+                                    process.goodVertices+
+                                    process.filterHLTEvents+
+                                    process.filterHighMETEvents+
+                                    process.tree)
+else:
+
+    process.analysisPath = cms.Path(process.gentree+ ## to be run as a first step
+                                    process.goodVertices+
+                                    process.filterHighMETEvents+
+                                    process.tree)
 
 
