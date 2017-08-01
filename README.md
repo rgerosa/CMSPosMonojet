@@ -29,6 +29,7 @@ As example, from an lxplus at CERN one can do:
 
 ```
 cmsRun makeAnalysisNtuples.py <options>	inputFiles=/store/mc/RunIISummer16MiniAODv2/WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/60000/F6C965C9-8AD4-E611-9026-02163E00AFA7.root```
+```
 
 Reading directly a MC file from CERN EOS (T2_CERN_CH)
 
@@ -36,12 +37,19 @@ The list of available running options are:
 
 ```
 a) inputFiles: list of files to run on
+
 b) maxEvents : how many events you want to process from the input file/files
+
 c) globalTag : specify an input global tag (not really useful in this analysis)
+
 d) outputFileName : specify the name of the output root file containing the flat trees and created via TFileService
+
 e) triggerName: specify the processName for the triggerResults collection, which can vary depending on the miniAOD version
+
 f) metRecoilCut: specify which threshold (in GeV) to select events according to the MET/Recoil of the event
+
 g) filterOnHLT: if set to true, require a certain set of triggers on the MC, to preselect events falling in CRs/SR.
+
 h) crossSection: set the cross section of the sample (in pb)
 ```
 
@@ -56,7 +64,7 @@ python submitCrabJobs.py <Sample list> <crab configuration file>
 
 List of samples are reported in the SampleList_MC_80X_Summer16/ directory, while the crab3 config example is config_MC_80X.py. One needs to modify it to correctly set the stageout site and area. Example:
 
-``
+```
 python submitCrabJobs.py SampleList_MC_80X_Summer16/SampleList_MC_DYJets.py config_MC_80X.py
 ```
 
