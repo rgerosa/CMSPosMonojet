@@ -35,21 +35,21 @@ Reading directly a MC file from CERN EOS (T2_CERN_CH)
 
 The list of available running options are:
 
-*a) inputFiles: list of files to run on
+* inputFiles: list of files to run on
 
-*b) maxEvents : how many events you want to process from the input file/files
+* maxEvents : how many events you want to process from the input file/files
 
-*c) globalTag : specify an input global tag (not really useful in this analysis)
+* globalTag : specify an input global tag (not really useful in this analysis)
 
-*d) outputFileName : specify the name of the output root file containing the flat trees and created via TFileService
+* outputFileName : specify the name of the output root file containing the flat trees and created via TFileService
 
-*e) triggerName: specify the processName for the triggerResults collection, which can vary depending on the miniAOD version
+* triggerName: specify the processName for the triggerResults collection, which can vary depending on the miniAOD version
 
-*f) metRecoilCut: specify which threshold (in GeV) to select events according to the MET/Recoil of the event
+* metRecoilCut: specify which threshold (in GeV) to select events according to the MET/Recoil of the event
 
-*g) filterOnHLT: if set to true, require a certain set of triggers on the MC, to preselect events falling in CRs/SR.
+* filterOnHLT: if set to true, require a certain set of triggers on the MC, to preselect events falling in CRs/SR.
 
-*h) crossSection: set the cross section of the sample (in pb)
+* crossSection: set the cross section of the sample (in pb)
 
 
 **Ho to	submit crab jobs fot ntuples production**
