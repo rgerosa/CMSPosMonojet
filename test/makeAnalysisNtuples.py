@@ -16,11 +16,6 @@ options.register (
     'filterOnHLT',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,
     'flag to indicate if apply or not trigger requirements');
 
-### process name useful for some collections
-options.register (
-    'miniAODProcess','PAT',VarParsing.multiplicity.singleton,VarParsing.varType.string,
-    'process name used for miniAOD production (target is miniAODv2)');
-
 ### specific to produce trees for trigger studies
 options.register (
     'triggerName','HLT',VarParsing.multiplicity.singleton,VarParsing.varType.string,
