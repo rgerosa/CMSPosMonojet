@@ -1,6 +1,4 @@
-#########################
 ## List of observables ##
-#########################
 
 These are the variables known by the framework, for which you can produce histograms with a binning defined in templateUtils.h
 
