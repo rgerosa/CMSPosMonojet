@@ -6,7 +6,7 @@ shapes data_obs    SR_MJ   workspace_MJ.root SR_MJ:data_obs_SR_MJ
 shapes Zvv         SR_MJ   workspace_MJ.root SR_MJ:Zvv_SR_MJ 
 shapes WJets       SR_MJ   workspace_MJ.root SR_MJ:WJets_SR_MJ 
 shapes Zll         SR_MJ   workspace_MJ.root SR_MJ:Zll_SR_MJ   
-shapes Dibosons    SR_MJ   workspace_MJ.root SR_MJ:Dibosons_SR_MJ   
+shapes Diboson     SR_MJ   workspace_MJ.root SR_MJ:Diboson_SR_MJ   
 shapes Top         SR_MJ   workspace_MJ.root SR_MJ:Top_SR_MJ         
 shapes Gamma       SR_MJ   workspace_MJ.root SR_MJ:Gamma_SR_MJ       
 shapes MonoJ       SR_MJ   workspace_MJ.root SR_MJ:MonoJ_SR_MJ
@@ -17,7 +17,7 @@ bin         SR_MJ
 observation -1
 -------------------------------------------------------------------------------------------------------------------------------------
 bin                               SR_MJ  SR_MJ   SR_MJ     SR_MJ        SR_MJ       SR_MJ        SR_MJ           SR_MJ        SR_MJ   
-process                           MonoJ  MonoW   MonoZ     Zvv          WJets        Zll         Dibosons        Top          Gamma
+process                           MonoJ  MonoW   MonoZ     Zvv          WJets        Zll         Diboson        Top          Gamma
 process                           0        -1      -2        1            2           3             4             5             6 
 rate                             -1        -1      -1        1           -1          -1            -1            -1            -1 
 -------------------------------------------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ CMS_eff_lepVeto_13TeV     lnN        -      -       -        -          1.030   
 CMS_met_13TeV             lnN    1.040    1.040    1.040     -          1.040        1.040          1.040         1.040       1.040
 CMS_btag_13TeV            lnN    1.020    1.020    1.020     -            -          1.020          1.020         1.060       1.020
 ZJets_Norm13TeV           lnN        -      -       -        -            -          1.200          -              -            - 
-Dibosons_Norm13TeV        lnN        -      -       -        -            -            -            1.200          -            - 
+Diboson_Norm13TeV         lnN        -      -       -        -            -            -            1.200          -            - 
 Top_Norm13TeV             lnN        -      -       -        -            -            -            -             1.100         - 
 GJets_Norm13TeV           lnN        -      -       -        -            -            -            -              -          1.200
 ##############

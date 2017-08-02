@@ -179,7 +179,7 @@ void makeHiggsCombineWorkspace(string inputDirectory, // path of the directory c
 
   // signal region data
   TH1F* data_SR = (TH1F*) inputBackgroundFile_SR->Get((observable+"/datahist_"+observable).c_str());
-  addTemplate("data_obs",vars,wspace_SR,data_SR);
+  addTemplate("data_obs_SR_"+suffix,vars,wspace_SR,data_SR);
 
   // signal region MC backgrounds
   TH1F* ttbar_SR = (TH1F*) inputBackgroundFile_SR->Get((observable+"/ttbarhist_"+observable).c_str());
@@ -204,7 +204,7 @@ void makeHiggsCombineWorkspace(string inputDirectory, // path of the directory c
   RooWorkspace wspace_Zmm(("Zmm_"+suffix).c_str(),(suffix+"_Zmm").c_str());
   // zmm region data
   TH1F* data_Zmm = (TH1F*) inputBackgroundFile_Zmm->Get((observable+"/datahist_"+observable).c_str());
-  addTemplate("data_obs",vars,wspace_Zmm,data_Zmm);
+  addTemplate("data_obs_Zmm_"+suffix,vars,wspace_Zmm,data_Zmm);
 
   // Zmm MC backgrounds
   TH1F* ttbar_Zmm = (TH1F*) inputBackgroundFile_Zmm->Get((observable+"/ttbarhist_"+observable).c_str());
@@ -227,7 +227,7 @@ void makeHiggsCombineWorkspace(string inputDirectory, // path of the directory c
   RooWorkspace wspace_Zee(("Zee_"+suffix).c_str(),(suffix+"_Zee").c_str());
   // zee region data
   TH1F* data_Zee = (TH1F*) inputBackgroundFile_Zee->Get((observable+"/datahist_"+observable).c_str());
-  addTemplate("data_obs",vars,wspace_Zee,data_Zee);
+  addTemplate("data_obs_Zee_"+suffix,vars,wspace_Zee,data_Zee);
 
   // Zee MC backgrounds
   TH1F* ttbar_Zee = (TH1F*) inputBackgroundFile_Zee->Get((observable+"/ttbarhist_"+observable).c_str());
@@ -251,8 +251,8 @@ void makeHiggsCombineWorkspace(string inputDirectory, // path of the directory c
 
   // gamma+jets region data
   TH1F* data_Gamma = (TH1F*) inputBackgroundFile_Gamma->Get((observable+"/datahist_"+observable).c_str());
-  addTemplate("data_obs",vars,wspace_Gamma,data_Gamma);
-
+  addTemplate("data_obs_Gamma_"+suffix,vars,wspace_Gamma,data_Gamma);
+  
   // Gamma MC backgrounds
   TH1F* ttbar_Gamma = (TH1F*) inputBackgroundFile_Gamma->Get((observable+"/ttbarhist_"+observable).c_str());
   TH1F* vv_Gamma    = (TH1F*) inputBackgroundFile_Gamma->Get((observable+"/vvhist_"+observable).c_str());

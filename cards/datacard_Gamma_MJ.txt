@@ -3,16 +3,16 @@ jmax * number of processes minus 1
 kmax * number of nuisance parameters
 --------------------------------------------------------
 shapes data_obs      Gamma_MJ   workspace_MJ.root Gamma_MJ:data_obs_Gamma_MJ
-shapes Zvv           Gamma_MJ   workspace_MJ.root Gamma_MJ:Znunu_GJ_MJ
-shapes WJets_Gamma   Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_GJ_MJ
-shapes Diboson_Gamma Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_GJ_MJ
-shapes Top_Gamma     Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_GJ_MJ
+shapes Zvv           Gamma_MJ   workspace_MJ.root Gamma_MJ:Zvv_Gamma_MJ
+shapes WJets_Gamma   Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_Gamma_MJ
+shapes Diboson_Gamma Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_Gamma_MJ
+shapes Top_Gamma     Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_Gamma_MJ
 ---------------------------------------------------------
 bin         Gamma_MJ
 observation -1
 --------------------------------------------------------------------------------------------
 bin                                 Gamma_MJ    Gamma_MJ    Gamma_MJ       Gamma_MJ
-process                             Znunu       Top_Gamma   Diboson_Gamma  WJets_Gamma
+process                             Zvv         Top_Gamma   Diboson_Gamma  WJets_Gamma
 process                             1           11           17            18
 rate                                1          -1           -1             -1
 --------------------------------------------------------------------------------------------
