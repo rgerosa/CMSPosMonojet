@@ -54,8 +54,13 @@ void makeSignalTemplates(Category category, // analysis category: monojet or mon
   cout<<"Run monoZ signal "<<endl;
   makeHistograms(monoZhist,monoZtree,Region::signal,category,luminosity);
 
-  cout<<"Save templates"<<endl;
-  string outputFileName = "templates_DM_mMed_"+medMass+"_mDM"+dmMass+".root";
+  cout<<"Save templates"<<endl;  
+  string outputFileName;
+  if(category == Category::monojet)
+    outputFileName = "templates_monojet_DM_mMed_"+medMass+"_mDM"+dmMass+".root";
+  else if(category == Category::monoV)
+    outputFileName = "templates_monoV_DM_mMed_"+medMass+"_mDM"+dmMass+".root";
+  
   // create the output file
   TFile* outputFile = new TFile((outputDIR+"/"+outputFileName).c_str(),"RECREATE");
   outputFile->cd();

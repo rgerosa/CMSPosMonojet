@@ -83,9 +83,9 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
 
     // ask the trigger
     int hlt = 0;
-    if(region == Region::signal or region == Region::wmunu or region == Region::zmumu)
+    if(region == Region::signal or region == Region::wmn or region == Region::zmm)
       hlt = *passingHLTPFMet + *passingHLTPFMetNoMu + *passingHLTPFMetMonojet;
-    else if(region == Region::wenu or region == Region::zee)      
+    else if(region == Region::wen or region == Region::zee)      
       hlt = *passingHLTElectron;
     else if(region == Region::gamma)
       hlt = *passingHLTPhoton;      
@@ -116,7 +116,7 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
       if(*phpt < 175) continue;
       if(fabs(*pheta) > 1.5) continue;
     }
-    else if(region == Region::wmunu){
+    else if(region == Region::wmn){
       if(*nmuons != 1) continue; // exactly one muon                                                                                                                                             
       if(*nelectrons > 0) continue; // veto electrons                                                                                                                                               
       if(*nphotons > 0) continue; // veto photons
@@ -126,7 +126,7 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
       if(*t1metnomu < 250) continue; // recoil cut
       if(*mindphijetmetnomu < 0.5) continue; // min dphi jet recoil      
     }
-    else if(region == Region::wenu){
+    else if(region == Region::wen){
       if(*nmuons > 0) continue; // veto muons                                                                                                                                                      
       if(*nelectrons != 1) continue; // exactly one electron                                                                                                                                  
       if(*nphotons > 0) continue; // vetp photons
@@ -137,7 +137,7 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
       if(*mindphijetmetnoele< 0.5) continue; // min dphi jet recoil
       if(*t1met < 50) continue; // met cut to reduce QCD
     }
-    else if(region == Region::zmumu){
+    else if(region == Region::zmm){
       if(*nmuons != 2) continue; // exactly two muons                                                                                                                                         
       if(*nelectrons > 0) continue; // veto electrons                                                                                                                                               
       if(*nphotons > 0) continue; //veto photons
@@ -207,31 +207,31 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
 
       if(name.Contains("jetmetdphi") and region == Region::signal)
 	fillValue = *mindphijetmet;
-      else if(name.Contains("jetmetdphi") and (region == Region::wmunu or region == Region::zmumu))
+      else if(name.Contains("jetmetdphi") and (region == Region::wmn or region == Region::zmm))
 	fillValue = *mindphijetmetnomu;
-      else if(name.Contains("jetmetdphi") and (region == Region::wenu or region == Region::zee))
+      else if(name.Contains("jetmetdphi") and (region == Region::wen or region == Region::zee))
 	fillValue = *mindphijetmetnoele;
       else if(name.Contains("jetmetdphi") and region == Region::gamma)
 	fillValue = *mindphijetmetnopho;
-      else if(name.Contains("mu1pt") and (region == Region::wmunu or region == Region::zmumu))
+      else if(name.Contains("mu1pt") and (region == Region::wmn or region == Region::zmm))
 	fillValue = *mu1pt;
-      else if(name.Contains("mu2pt") and region == Region::zmumu)
+      else if(name.Contains("mu2pt") and region == Region::zmm)
 	fillValue = *mu2pt;
-      else if(name.Contains("mu1eta") and (region == Region::wmunu or region == Region::zmumu))
+      else if(name.Contains("mu1eta") and (region == Region::wmn or region == Region::zmm))
 	fillValue = *mu1eta;
-      else if(name.Contains("mu2eta") and region == Region::zmumu)
+      else if(name.Contains("mu2eta") and region == Region::zmm)
 	fillValue = *mu2eta;
-      else if(name.Contains("el1pt") and (region == Region::wenu or region == Region::zee))
+      else if(name.Contains("el1pt") and (region == Region::wen or region == Region::zee))
 	fillValue = *el1pt;
       else if(name.Contains("el2pt") and region == Region::zee)
 	fillValue = *el2pt;
-      else if(name.Contains("el1eta") and (region == Region::wenu or region == Region::zee))
+      else if(name.Contains("el1eta") and (region == Region::wen or region == Region::zee))
 	fillValue = *el1eta;
       else if(name.Contains("el2eta") and region == Region::zee)
 	fillValue = *el2eta;
-      else if(name.Contains("wmnmt") and region == Region::wmunu)
+      else if(name.Contains("wmnmt") and region == Region::wmn)
 	fillValue = *wmnmt;
-      else if(name.Contains("wenmt") and region == Region::wenu)
+      else if(name.Contains("wenmt") and region == Region::wen)
 	fillValue = *wenmt;
       else if(name.Contains("njet"))
 	fillValue = *njets;
@@ -245,7 +245,7 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
 	fillValue = vjettau2->at(0)/vjettau1->at(0);
       else if(name.Contains("msoftdrop") and category == Category::monoV and vjetpt->size() > 0)
 	fillValue = vjetsoftdropm->at(0);
-      else if(name.Contains("zpt") and region == Region::zmumu)
+      else if(name.Contains("zpt") and region == Region::zmm)
 	fillValue = *zmmpt;
       else if(name.Contains("zpt") and region == Region::zee)
 	fillValue = *zeept;
@@ -255,13 +255,13 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
 	fillValue = *pheta;
       else if(name.Contains("met") and region == Region::signal)
 	fillValue = *t1met;
-      else if(name.Contains("zmmmass") and region == Region::zmumu)
+      else if(name.Contains("zmmmass") and region == Region::zmm)
 	fillValue = *zmmmass;
       else if(name.Contains("zeemass") and region == Region::zee)
 	fillValue = *zeemass;
-      else if(name.Contains("met") and (region == Region::wmunu or region == Region::zmumu))
+      else if(name.Contains("met") and (region == Region::wmn or region == Region::zmm))
 	fillValue = *t1metnomu;
-      else if(name.Contains("met") and (region == Region::wenu or region == Region::zee))
+      else if(name.Contains("met") and (region == Region::wen or region == Region::zee))
 	fillValue = *t1metnoele;
       else if(name.Contains("met") and region == Region::gamma)
 	fillValue = *t1metnopho;

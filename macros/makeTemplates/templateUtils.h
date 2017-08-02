@@ -5,7 +5,7 @@
 #include <map>
 #include "TH1F.h"
 
-enum class Region   { signal, gamma, wmunu, zmumu, wenu, zee};
+enum class Region   { signal, gamma, wmn, zmm, wen, zee};
 enum class Category { monojet, monoV};
 
 // observables                                                                                                                                                                                    

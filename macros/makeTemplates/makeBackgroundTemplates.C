@@ -83,6 +83,7 @@ void makeBackgroundTemplates(Region region, // control region in which selects e
   /// make pseudo data
   cout<<"Generate data"<<endl;
   TRandom3 random;  
+  random.SetSeed(0);
   for(size_t ihist = 0; ihist < zvvhist.size(); ihist++){
     for(int iBin = 0; iBin < zvvhist.at(ihist)->GetNbinsX(); iBin++){
       double binval = 0;
@@ -93,6 +94,7 @@ void makeBackgroundTemplates(Region region, // control region in which selects e
       binval += ttbarhist.at(ihist)->GetBinContent(iBin+1);
       binval += vvhist.at(ihist)->GetBinContent(iBin+1);      
       datahist.at(ihist)->SetBinContent(iBin+1,random.Poisson(binval));
+      datahist.at(ihist)->SetBinError(iBin+1,sqrt(datahist.at(ihist)->GetBinContent(iBin+1)));
     }    
   }
   
@@ -109,12 +111,12 @@ void makeBackgroundTemplates(Region region, // control region in which selects e
     outputFileName += "SR";
   else if(region == Region::gamma)
     outputFileName += "gam";
-  else if(region == Region::wmunu)
-    outputFileName += "wmunu";
-  else if(region == Region::wenu)
-    outputFileName += "wenu";
-  else if(region == Region::zmumu)
-    outputFileName += "zmumu";
+  else if(region == Region::wmn)
+    outputFileName += "wmn";
+  else if(region == Region::wen)
+    outputFileName += "wen";
+  else if(region == Region::zmm)
+    outputFileName += "zmm";
   else if(region == Region::zee)
     outputFileName += "zee";
 
@@ -134,6 +136,7 @@ void makeBackgroundTemplates(Region region, // control region in which selects e
     gammahist.at(iobs)->Write();
     ttbarhist.at(iobs)->Write();
     vvhist.at(iobs)->Write();
+    datahist.at(iobs)->Write();
     outputFile->cd();
     iobs++;
   }  
