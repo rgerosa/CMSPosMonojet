@@ -2,7 +2,7 @@
 
 These are the variables known by the framework, for which you can produce histograms with a binning defined in templateUtils.h
 
-| Variable Name | Description                               | Region Used |  Category |
+| Variable      | Description                               | Region Used |  Category |
 | ------------- | ------------------------------------------|-------------|-----------|                        
 | met           | Missing energy or hadronic recoil         | SR, zmm, zee, wmn, wen, gamma | monojet, monoV |
 | jetmetdphi    | Minimum d-phi between jets and MET/recoil | SR, zmm, zee, wmn, wen, gamma | monojet, monoV |
