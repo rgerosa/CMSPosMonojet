@@ -22,8 +22,8 @@ void makeSignalTemplates(Category category, // analysis category: monojet or mon
   TChain* monoZtree = new TChain("tree/tree");  
 
   monojettree->Add((inputFileDIR+"/*MonoJ*"+medMass+"*"+dmMass+"*root").c_str());
-  monoWtree->Add((inputFileDIR+"/*MonoJ*"+medMass+"*"+dmMass+"*root").c_str());
-  monoZtree->Add((inputFileDIR+"/*MonoJ*"+medMass+"*"+dmMass+"*root").c_str());
+  monoWtree->Add((inputFileDIR+"/*MonoW*"+medMass+"*"+dmMass+"*root").c_str());
+  monoZtree->Add((inputFileDIR+"/*MonoZ*"+medMass+"*"+dmMass+"*root").c_str());
   
   // histograms for each process --> create them
   vector<TH1F*> monojethist;
@@ -47,12 +47,15 @@ void makeSignalTemplates(Category category, // analysis category: monojet or mon
   }
 
   // make the histograms for the different samples
+  cout<<"Run monoJ signal "<<endl;
   makeHistograms(monojethist,monojettree,Region::signal,category,luminosity);
+  cout<<"Run monoW signal "<<endl;
   makeHistograms(monoWhist,monoWtree,Region::signal,category,luminosity);
+  cout<<"Run monoZ signal "<<endl;
   makeHistograms(monoZhist,monoZtree,Region::signal,category,luminosity);
 
-  string outputFileName = "templates_DMSignal_SR.root";
-
+  cout<<"Save templates"<<endl;
+  string outputFileName = "templates_DM_mMed_"+medMass+"_mDM"+dmMass+".root";
   // create the output file
   TFile* outputFile = new TFile((outputDIR+"/"+outputFileName).c_str(),"RECREATE");
   outputFile->cd();

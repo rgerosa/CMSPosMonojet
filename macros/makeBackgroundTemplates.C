@@ -67,15 +67,22 @@ void makeBackgroundTemplates(Region region, // control region in which selects e
   }
 
   // make the histograms for the different samples
+  cout<<"Run on Zvv sample"<<endl;
   makeHistograms(zvvhist,zvvtree,region,category,luminosity);
+  cout<<"Run on Wjets sample"<<endl;
   makeHistograms(wjethist,wjettree,region,category,luminosity);
+  cout<<"Run on DY sample"<<endl;
   makeHistograms(zllhist,zlltree,region,category,luminosity);
+  cout<<"Run on gamma+jets sample"<<endl;
   makeHistograms(gammahist,gammatree,region,category,luminosity);
+  cout<<"Run on ttbar sample"<<endl;
   makeHistograms(ttbarhist,ttbartree,region,category,luminosity);
+  cout<<"Run on Diboson sample"<<endl;
   makeHistograms(vvhist,vvtree,region,category,luminosity);
 
   /// make pseudo data
-  TRandom3 random;
+  cout<<"Generate data"<<endl;
+  TRandom3 random;  
   for(size_t ihist = 0; ihist < zvvhist.size(); ihist++){
     for(int iBin = 0; iBin < zvvhist.at(ihist)->GetNbinsX(); iBin++){
       double binval = 0;
@@ -90,6 +97,7 @@ void makeBackgroundTemplates(Region region, // control region in which selects e
   }
   
 
+  cout<<"Save templates"<<endl;
   /// create the output file name
   string outputFileName = "templates_";
   if(category == Category::monojet)
@@ -99,7 +107,7 @@ void makeBackgroundTemplates(Region region, // control region in which selects e
 
   if(region == Region::signal)
     outputFileName += "SR";
-  else if(region == Region::gammajets)
+  else if(region == Region::gamma)
     outputFileName += "gam";
   else if(region == Region::wmunu)
     outputFileName += "wmunu";

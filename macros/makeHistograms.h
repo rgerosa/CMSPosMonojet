@@ -48,15 +48,15 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
   TTreeReaderValue<float> mindphijetmetnoele (reader,"mindphijetmetnoele");
   TTreeReaderValue<float> mindphijetmetnopho (reader,"mindphijetmetnopho");
 
-  TTreeReaderValue<unsigned int> mu1pid (reader,"mu1pid");
-  TTreeReaderValue<unsigned int> mu2pid (reader,"mu2pid");
-  TTreeReaderValue<unsigned int> mu1id (reader,"mu1id");
-  TTreeReaderValue<unsigned int> mu2id (reader,"mu2id");
+  TTreeReaderValue<int> mu1pid (reader,"mu1pid");
+  TTreeReaderValue<int> mu2pid (reader,"mu2pid");
+  TTreeReaderValue<int> mu1id (reader,"mu1id");
+  TTreeReaderValue<int> mu2id (reader,"mu2id");
 
-  TTreeReaderValue<unsigned int> el1pid (reader,"el1pid");
-  TTreeReaderValue<unsigned int> el2pid (reader,"el2pid");
-  TTreeReaderValue<unsigned int> el1id (reader,"el1id");
-  TTreeReaderValue<unsigned int> el2id (reader,"el2id");
+  TTreeReaderValue<int> el1pid (reader,"el1pid");
+  TTreeReaderValue<int> el2pid (reader,"el2pid");
+  TTreeReaderValue<int> el1id (reader,"el1id");
+  TTreeReaderValue<int> el2id (reader,"el2id");
 
   TTreeReaderValue<float> mu1pt (reader,"mu1pt");
   TTreeReaderValue<float> mu2pt (reader,"mu2pt");
@@ -70,7 +70,7 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
 
   TTreeReaderValue<float> phpt (reader,"phpt");
   TTreeReaderValue<float> pheta (reader,"pheta");
-  TTreeReaderValue<unsigned int> phid (reader,"phid");
+  TTreeReaderValue<int> phid (reader,"phid");
 
   TTreeReaderValue<float> zmmmass (reader,"zmmmass");
   TTreeReaderValue<float> zeemass (reader,"zeemass");
@@ -87,7 +87,7 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
       hlt = *passingHLTPFMet + *passingHLTPFMetNoMu + *passingHLTPFMetMonojet;
     else if(region == Region::wenu or region == Region::zee)      
       hlt = *passingHLTElectron;
-    else if(region == Region::gammajets)
+    else if(region == Region::gamma)
       hlt = *passingHLTPhoton;      
     if(hlt == 0) continue;
 
@@ -106,13 +106,15 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
       if(*t1met < 250) continue;  // met cut
       if(*mindphijetmet < 0.5) continue; //min dphi jet met
     }
-    else if(region == Region::gammajets){
+    else if(region == Region::gamma){
       if(*nmuons > 0) continue; // veto muons                                                                                                                                                      
       if(*nelectrons > 0) continue; // veto electrons                                                                                                                                               
       if(*nphotons != 1) continue; //only one photon
       if(*phid != 1) continue; // medium id
       if(*t1metnopho < 250) continue; // recoil cut
       if(*mindphijetmetnopho < 0.5) continue; // min dphi jet recoil     
+      if(*phpt < 175) continue;
+      if(fabs(*pheta) > 1.5) continue;
     }
     else if(region == Region::wmunu){
       if(*nmuons != 1) continue; // exactly one muon                                                                                                                                             
@@ -139,10 +141,12 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
       if(*nmuons != 2) continue; // exactly two muons                                                                                                                                         
       if(*nelectrons > 0) continue; // veto electrons                                                                                                                                               
       if(*nphotons > 0) continue; //veto photons
-      if(*mu1id != 1) continue; // tight id
-      if(*mu1pt < 20) continue;
       if(fabs(*mu1eta) > 2.4) continue;
       if(fabs(*mu2eta) > 2.4) continue;
+      bool goodMuon = false;
+      if(*mu1pt > 20 and *mu1id == 1) goodMuon = true;
+      if(*mu2pt > 20 and *mu2id == 1) goodMuon = true;
+      if(not goodMuon) continue;
       if(*mu1pid == *mu2pid) continue; // opposite charge
       if(*t1metnomu < 250) continue; // recoil cut
       if(*mindphijetmetnomu < 0.5) continue;  // min dphi jet recoil     
@@ -153,10 +157,12 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
       if(*nmuons > 0) continue; // veto muons                                                                                                                                                      
       if(*nelectrons != 2) continue; // exactly two electrons                                                                                                                                 
       if(*nphotons > 0) continue; //veto photons
-      if(*el1id != 1) continue; // tight od
-      if(*el1pt < 40) continue; // pt cut
       if(fabs(*el1eta) > 2.5) continue;
       if(fabs(*el2eta) > 2.5) continue;
+      bool goodElectron = false;
+      if(*el1pt > 40 and *el1id == 1) goodElectron = true;
+      if(*el2pt > 40 and *el2id == 1) goodElectron = true;
+      if(not goodElectron) continue;
       if(*el1pid == *el2pid) continue; // opposite charge
       if(*t1metnoele < 250) continue; // recoil cut
       if(*mindphijetmetnoele < 0.5) continue; // min dphi jet recoil     
@@ -205,7 +211,7 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
 	fillValue = *mindphijetmetnomu;
       else if(name.Contains("jetmetdphi") and (region == Region::wenu or region == Region::zee))
 	fillValue = *mindphijetmetnoele;
-      else if(name.Contains("jetmetdphi") and region == Region::gammajets)
+      else if(name.Contains("jetmetdphi") and region == Region::gamma)
 	fillValue = *mindphijetmetnopho;
       else if(name.Contains("mu1pt") and (region == Region::wmunu or region == Region::zmumu))
 	fillValue = *mu1pt;
@@ -219,7 +225,7 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
 	fillValue = *el1pt;
       else if(name.Contains("el2pt") and region == Region::zee)
 	fillValue = *el2pt;
-      else if(name.Contains("el1eta") and (region == Region::wenu or region == Region::zmumu))
+      else if(name.Contains("el1eta") and (region == Region::wenu or region == Region::zee))
 	fillValue = *el1eta;
       else if(name.Contains("el2eta") and region == Region::zee)
 	fillValue = *el2eta;
@@ -239,20 +245,30 @@ void makeHistograms(vector<TH1F*> histograms, // input histograms
 	fillValue = vjettau2->at(0)/vjettau1->at(0);
       else if(name.Contains("msoftdrop") and category == Category::monoV and vjetpt->size() > 0)
 	fillValue = vjetsoftdropm->at(0);
-      else if(name.Contains("bosonpt") and region == Region::zmumu)
+      else if(name.Contains("zpt") and region == Region::zmumu)
 	fillValue = *zmmpt;
-      else if(name.Contains("bosonpt") and region == Region::zee)
+      else if(name.Contains("zpt") and region == Region::zee)
 	fillValue = *zeept;
-      else if(name.Contains("bosonpt") and region == Region::gammajets)
+      else if(name.Contains("photonpt") and region == Region::gamma)
 	fillValue = *phpt;
+      else if(name.Contains("photoneta") and region == Region::gamma)
+	fillValue = *pheta;
       else if(name.Contains("met") and region == Region::signal)
 	fillValue = *t1met;
+      else if(name.Contains("zmmmass") and region == Region::zmumu)
+	fillValue = *zmmmass;
+      else if(name.Contains("zeemass") and region == Region::zee)
+	fillValue = *zeemass;
       else if(name.Contains("met") and (region == Region::wmunu or region == Region::zmumu))
 	fillValue = *t1metnomu;
       else if(name.Contains("met") and (region == Region::wenu or region == Region::zee))
 	fillValue = *t1metnoele;
-      else if(name.Contains("met") and region == Region::gammajets)
+      else if(name.Contains("met") and region == Region::gamma)
 	fillValue = *t1metnopho;
+
+      // include the overflow
+      if(fillValue > hist->GetBinLowEdge(hist->GetNbinsX()+1))
+	fillValue = hist->GetBinLowEdge(hist->GetNbinsX()+1)-hist->GetBinWidth((hist->GetNbinsX())/2);
       
       hist->Fill(fillValue,eventWeight);
     } 
