@@ -1,0 +1,35 @@
+imax * number of bins
+jmax * number of processes minus 1
+kmax * number of nuisance parameters
+--------------------------------------------------------
+shapes data_obs      Gamma_MJ   workspace_MJ.root Gamma_MJ:data_obs_Gamma_MJ
+shapes Zvv           Gamma_MJ   workspace_MJ.root Gamma_MJ:Znunu_GJ_MJ
+shapes WJets_Gamma   Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_GJ_MJ
+shapes Diboson_Gamma Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_GJ_MJ
+shapes Top_Gamma     Gamma_MJ   workspace_MJ.root Gamma_MJ:WJets_GJ_MJ
+---------------------------------------------------------
+bin         Gamma_MJ
+observation -1
+--------------------------------------------------------------------------------------------
+bin                                 Gamma_MJ    Gamma_MJ    Gamma_MJ       Gamma_MJ
+process                             Znunu       Top_Gamma   Diboson_Gamma  WJets_Gamma
+process                             1           11           17            18
+rate                                1          -1           -1             -1
+--------------------------------------------------------------------------------------------
+lumi_13TeV                lnN       -           1.026       1.026         1.026  
+CMS_eff_ph                lnN       1.020       1.020       1.020         1.020
+CMS_trig_ph               lnN       1.010       1.010       1.010         1.010
+WJets_Gamma_Norm13TeV     lnN       -           -           -             1.500
+Diboson_Gamma_Norm13TeV   lnN       -           -           1.500         -
+Top_Gamma_Norm13TeV       lnN       -           1.500       -             -
+Zvv_Gamma_MJ_bin1_Runc    param     0     1
+Zvv_Gamma_MJ_bin2_Runc    param     0     1
+Zvv_Gamma_MJ_bin3_Runc    param     0     1
+Zvv_Gamma_MJ_bin4_Runc    param     0     1
+Zvv_Gamma_MJ_bin5_Runc    param     0     1
+Zvv_Gamma_MJ_bin6_Runc    param     0     1
+Zvv_Gamma_MJ_bin7_Runc    param     0     1
+Zvv_Gamma_MJ_bin8_Runc    param     0     1
+Zvv_Gamma_MJ_bin9_Runc    param     0     1
+Zvv_Gamma_MJ_bin10_Runc   param     0     1
+Zvv_Gamma_MJ_bin11_Runc   param     0     1

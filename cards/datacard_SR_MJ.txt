@@ -1,1 +1,45 @@
-a
+imax * number of bins
+cmax * number of processes minus 1
+kmax * number of nuisance parameters
+--------------------------------------------------------------------
+shapes data_obs    SR_MJ   workspace_MJ.root SR_MJ:data_obs_SR_MJ
+shapes Zvv         SR_MJ   workspace_MJ.root SR_MJ:Zvv_SR_MJ 
+shapes WJets       SR_MJ   workspace_MJ.root SR_MJ:WJets_SR_MJ 
+shapes Zll         SR_MJ   workspace_MJ.root SR_MJ:Zll_SR_MJ   
+shapes Dibosons    SR_MJ   workspace_MJ.root SR_MJ:Dibosons_SR_MJ   
+shapes Top         SR_MJ   workspace_MJ.root SR_MJ:Top_SR_MJ         
+shapes Gamma       SR_MJ   workspace_MJ.root SR_MJ:Gamma_SR_MJ       
+shapes MonoJ       SR_MJ   workspace_MJ.root SR_MJ:MonoJ_SR_MJ
+shapes MonoW       SR_MJ   workspace_MJ.root SR_MJ:MonoW_SR_MJ
+shapes MonoZ       SR_MJ   workspace_MJ.root SR_MJ:MonoZ_SR_MJ
+--------------------------------------------------------------------
+bin         SR_MJ
+observation -1
+-------------------------------------------------------------------------------------------------------------------------------------
+bin                               SR_MJ  SR_MJ   SR_MJ     SR_MJ        SR_MJ       SR_MJ        SR_MJ           SR_MJ        SR_MJ   
+process                           MonoJ  MonoW   MonoZ     Zvv          WJets        Zll         Dibosons        Top          Gamma
+process                           0        -1      -2        1            2           3             4             5             6 
+rate                             -1        -1      -1        1           -1          -1            -1            -1            -1 
+-------------------------------------------------------------------------------------------------------------------------------------
+lumi_13TeV                lnN    1.026    1.026    1.026     -          1.026        1.026          1.026         1.026       1.026
+CMS_met_trigger           lnN    1.010    1.010    1.010     -          1.010        1.010          1.010         1.010       1.010
+CMS_eff_lepVeto_13TeV     lnN        -      -       -        -          1.030        1.030          1.030         1.030       1.030
+CMS_met_13TeV             lnN    1.040    1.040    1.040     -          1.040        1.040          1.040         1.040       1.040
+CMS_btag_13TeV            lnN    1.020    1.020    1.020     -            -          1.020          1.020         1.060       1.020
+ZJets_Norm13TeV           lnN        -      -       -        -            -          1.200          -              -            - 
+Dibosons_Norm13TeV        lnN        -      -       -        -            -            -            1.200          -            - 
+Top_Norm13TeV             lnN        -      -       -        -            -            -            -             1.100         - 
+GJets_Norm13TeV           lnN        -      -       -        -            -            -            -              -          1.200
+##############
+Zvv_SR_MJ_bin1 flatParam
+Zvv_SR_MJ_bin2 flatParam
+Zvv_SR_MJ_bin3 flatParam
+Zvv_SR_MJ_bin4 flatParam
+Zvv_SR_MJ_bin5 flatParam
+Zvv_SR_MJ_bin6 flatParam
+Zvv_SR_MJ_bin7 flatParam
+Zvv_SR_MJ_bin8 flatParam
+Zvv_SR_MJ_bin9 flatParam
+Zvv_SR_MJ_bin10 flatParam
+Zvv_SR_MJ_bin11 flatParam
+
