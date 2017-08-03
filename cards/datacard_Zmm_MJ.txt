@@ -2,11 +2,11 @@ imax * number of bins
 jmax * number of processes minus 1
 kmax * number of nuisance parameters
 ----------------------------------------------------------------------------------
-shapes data_obs      Zmm_MJ   workspace_MJ.root Zmm_MJ:data_obs_Zmm_MJ
-shapes Zvv           Zmm_MJ   workspace_MJ.root Zmm_MJ:Zvv_Zmm_MJ
-shapes WJets_Zmm     Zmm_MJ   workspace_MJ.root Zmm_MJ:WJets_Zmm_MJ
-shapes Diboson       Zmm_MJ   workspace_MJ.root Zmm_MJ:Diboson_Zmm_MJ
-shapes Top	     Zmm_MJ   workspace_MJ.root Zmm_MJ:Top_Zmm_MJ
+shapes data_obs      Zmm_MJ   workspace_MJ_mMed_1500.root Zmm_MJ:data_obs_Zmm_MJ
+shapes Zvv           Zmm_MJ   workspace_MJ_mMed_1500.root Zmm_MJ:Zvv_Zmm_MJ
+shapes WJets_Zmm     Zmm_MJ   workspace_MJ_mMed_1500.root Zmm_MJ:WJets_Zmm_MJ
+shapes Diboson       Zmm_MJ   workspace_MJ_mMed_1500.root Zmm_MJ:Diboson_Zmm_MJ
+shapes Top	     Zmm_MJ   workspace_MJ_mMed_1500.root Zmm_MJ:Top_Zmm_MJ
 ----------------------------------------------------------------------------------
 bin         Zmm_MJ
 observation -1
@@ -24,14 +24,14 @@ Diboson_Norm13TeV         lnN       -           -           1.200           -
 Top_Norm13TeV	          lnN       -           -           -               1.100 
 CMS_met_13TeV             lnN       -           1.040       1.040           1.040 
 CMS_btag_13TeV            lnN       -           1.020       1.020           1.060  
-Zvv_Zmm_MJ_bin1_Runc     param     0     1
-Zvv_Zmm_MJ_bin2_Runc     param     0     1
-Zvv_Zmm_MJ_bin3_Runc     param     0     1
-Zvv_Zmm_MJ_bin4_Runc     param     0     1
-Zvv_Zmm_MJ_bin5_Runc     param     0     1
-Zvv_Zmm_MJ_bin6_Runc     param     0     1
-Zvv_Zmm_MJ_bin7_Runc     param     0     1
-Zvv_Zmm_MJ_bin8_Runc     param     0     1
-Zvv_Zmm_MJ_bin9_Runc     param     0     1
-Zvv_Zmm_MJ_bin10_Runc    param     0     1
-Zvv_Zmm_MJ_bin11_Runc    param     0     1
+Zvv_Zmm_MJ_bin1_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin2_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin3_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin4_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin5_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin6_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin7_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin8_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin9_Runc     param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin10_Runc    param     0     1 [-6,6]
+Zvv_Zmm_MJ_bin11_Runc    param     0     1 [-6,6]

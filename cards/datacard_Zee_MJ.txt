@@ -2,11 +2,11 @@ imax * number of bins
 jmax * number of processes minus 1
 kmax * number of nuisance parameters
 ----------------------------------------------------------------------------------
-shapes data_obs      Zee_MJ  workspace_MJ.root Zee_MJ:data_obs_Zee_MJ
-shapes Zvv           Zee_MJ  workspace_MJ.root Zee_MJ:Zvv_Zee_MJ
-shapes WJets_Zee     Zee_MJ  workspace_MJ.root Zee_MJ:WJets_Zee_MJ
-shapes Diboson       Zee_MJ  workspace_MJ.root Zee_MJ:Diboson_Zee_MJ
-shapes Top           Zee_MJ  workspace_MJ.root Zee_MJ:Top_Zee_MJ
+shapes data_obs      Zee_MJ  workspace_MJ_mMed_1500.root Zee_MJ:data_obs_Zee_MJ
+shapes Zvv           Zee_MJ  workspace_MJ_mMed_1500.root Zee_MJ:Zvv_Zee_MJ
+shapes WJets_Zee     Zee_MJ  workspace_MJ_mMed_1500.root Zee_MJ:WJets_Zee_MJ
+shapes Diboson       Zee_MJ  workspace_MJ_mMed_1500.root Zee_MJ:Diboson_Zee_MJ
+shapes Top           Zee_MJ  workspace_MJ_mMed_1500.root Zee_MJ:Top_Zee_MJ
 ----------------------------------------------------------------------------------
 bin         Zee_MJ
 observation -1
@@ -23,14 +23,14 @@ Diboson_Norm13TeV         lnN       -           -           1.200           -
 Top_Norm13TeV             lnN       -           -           -               1.100 
 CMS_met_13TeV             lnN       -           1.040       1.040           1.040 
 CMS_btag_13TeV            lnN       -           1.020       1.020           1.060  
-Zvv_Zee_MJ_bin1_Runc     param     0     1
-Zvv_Zee_MJ_bin2_Runc     param     0     1
-Zvv_Zee_MJ_bin3_Runc     param     0     1
-Zvv_Zee_MJ_bin4_Runc     param     0     1
-Zvv_Zee_MJ_bin5_Runc     param     0     1
-Zvv_Zee_MJ_bin6_Runc     param     0     1
-Zvv_Zee_MJ_bin7_Runc     param     0     1
-Zvv_Zee_MJ_bin8_Runc     param     0     1
-Zvv_Zee_MJ_bin9_Runc     param     0     1
-Zvv_Zee_MJ_bin10_Runc    param     0     1
-Zvv_Zee_MJ_bin11_Runc    param     0     1
+Zvv_Zee_MJ_bin1_Runc     param     0     1 [-6,6]
+Zvv_Zee_MJ_bin2_Runc     param     0     1 [-6,6] 
+Zvv_Zee_MJ_bin3_Runc     param     0     1 [-6,6]
+Zvv_Zee_MJ_bin4_Runc     param     0     1 [-6,6]
+Zvv_Zee_MJ_bin5_Runc     param     0     1 [-6,6]
+Zvv_Zee_MJ_bin6_Runc     param     0     1 [-6,6]
+Zvv_Zee_MJ_bin7_Runc     param     0     1 [-6,6]
+Zvv_Zee_MJ_bin8_Runc     param     0     1 [-6,6]
+Zvv_Zee_MJ_bin9_Runc     param     0     1 [-6,6]
+Zvv_Zee_MJ_bin10_Runc    param     0     1 [-6,6]
+Zvv_Zee_MJ_bin11_Runc    param     0     1 [-6,6]

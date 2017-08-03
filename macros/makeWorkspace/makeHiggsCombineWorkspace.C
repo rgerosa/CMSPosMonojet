@@ -57,7 +57,7 @@ void makeConnectedBinList(string procname,  // name to be used to fill the works
 
   // loop on the transfer factor bin
   RooArgList* crbinlist = new RooArgList();
-  float extreme_tmp = 5;
+  float extreme_tmp = 8;
   for (int i = 1; i <= rhist->GetNbinsX(); i++) {
 
     // one rooreal var for each bin containing the ratio --> fixed --> only nuisance parameters can modify it
@@ -115,7 +115,8 @@ void makeConnectedBinList(string procname,  // name to be used to fill the works
 void makeHiggsCombineWorkspace(string inputDirectory, // path of the directory containing all the templates files
 			       string inputSignalFileName_SR, // signal templates for a specific mass point
 			       string observable, // observable to use for the fit
-			       Category category // useful to pick-up the right binning
+			       Category category, // useful to pick-up the right binning
+			       string postfix = "" // to be added for the outputfile name
 			       ){
 
   //open input files
@@ -154,7 +155,11 @@ void makeHiggsCombineWorkspace(string inputDirectory, // path of the directory c
  
   // create the output workspace                                                                                                                                                                    
   cout<<"Create output file ..."<<endl;
-  string outputName = "workspace_"+suffix+".root";
+
+  string outputName;
+  if(postfix != "") outputName = "workspace_"+suffix+"_"+postfix+".root";
+  else outputName = "workspace_"+suffix+".root";
+
   TFile *outfile = new TFile(outputName.c_str(),"RECREATE");
   outfile->cd();
 
